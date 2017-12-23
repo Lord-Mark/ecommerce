@@ -15,4 +15,11 @@ $app->get("/", function ()
 	$page->setTpl("index");
 });
 
+$app->get("/admin", function ()
+{
+	$page = new Page(array(), "views/admin/");
+	$page->setTpl("index");
+
+});
+
 $app->run();

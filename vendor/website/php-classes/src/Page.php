@@ -11,16 +11,14 @@ class Page
 		"data" => []
 	];
 
-	function __construct($opts = array())
+	function __construct($opts = array(), $tpl_dir = "views/")
 	{
-		$DS = DIRECTORY_SEPARATOR;
-
 		$this->options = array_merge($this->defaults, $opts);
 
 		$config = array(
-			"tpl_dir" => $_SERVER["DOCUMENT_ROOT"] . $DS . "views" . $DS,
-			"cache_dir" => $_SERVER["DOCUMENT_ROOT"] . $DS . "views-cache" . $DS,
-			"debug" => false
+			"tpl_dir" 	=> $_SERVER["DOCUMENT_ROOT"] . "/" . $tpl_dir,
+			"cache_dir" => $_SERVER["DOCUMENT_ROOT"] . "/views-cache/",
+			"debug" 	=> false
 		);
 
 		$this->tpl = new Tpl;
