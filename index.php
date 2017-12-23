@@ -2,17 +2,17 @@
 
 require_once 'vendor/autoload.php';
 
-$app = new \Slim\Slim();
+use Slim\Slim;
+use Website\Page;
+
+$app = new Slim();
 
 $app->config("debug", true);
 
 $app->get("/", function ()
 {
-	$sql = new Website\DB\Sql();
-
-	$result = $sql->select("SELECT * FROM tb_users");
-
-	echo json_encode($result);
+	$page = new Page;
+	$page->setTpl("index");
 });
 
 $app->run();
