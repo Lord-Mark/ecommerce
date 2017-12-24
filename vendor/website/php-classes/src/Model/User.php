@@ -60,6 +60,69 @@ class User extends Model
 		$_SESSION[User::SESSION] = null;
 
 	}
+
+	public static function listAll()
+	{
+		$sql = new Sql();
+
+		return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
+	}
+
+	public function insert()
+	{
+		$sql = new Sql();
+
+		$results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+			":desperson" 	=> $this->desperson, // valores buscados da classe Model, através do magic method __get()
+			":deslogin" 	=> $this->deslogin,
+			":despassword" 	=> $this->despassword,
+			":desemail" 	=> $this->desemail,
+			":nrphone" 		=> $this->nrphone,
+			":inadmin" 		=> $this->inadmin
+		));
+
+		$this->setData($results[0]);
+	}
+
+
+	public function get($iduser)
+	{
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser", array(
+			":iduser" => $iduser
+		));
+
+		$this->setData($results[0]);
+
+	}
+
+	public function update($iduser)
+	{
+		$sql = new Sql();
+
+		$results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+			":iduser" 		=> $iduser,
+			":desperson" 	=> $this->desperson, // valores buscados da classe Model, através do magic method __get()
+			":deslogin" 	=> $this->deslogin,
+			":despassword" 	=> $this->despassword,
+			":desemail" 	=> $this->desemail,
+			":nrphone" 		=> $this->nrphone,
+			":inadmin" 		=> $this->inadmin
+		));
+
+		$this->setData($results[0]);
+	}
+
+	public function delete()
+	{
+		$sql = new Sql();
+
+		$sql->query("CALL sp_users_delete(:iduser)", array(
+			":iduser"	=> $this->iduser
+		));
+	}
+
 }
 
 
